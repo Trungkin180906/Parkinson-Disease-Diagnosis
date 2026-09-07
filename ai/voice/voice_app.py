@@ -21,6 +21,9 @@ st.markdown('<p style="text-align:center;">Phân tích giọng nói để đo l�
 #đọc và tải mô hình từ các file pkl
 #lấy đường dẫn thư mục tại file train_voice
 current_dir=os.path.dirname(os.path.abspath(__file__))
+model_path=os.path.join(current_dir, 'tele_model.pkl')
+scaler_path=os.path.join(current_dir, 'tele_scaler.pkl')
+feat_path=os.path.join(current_dir, 'tele_features.pkl')
 model_path=os.path.join(current_dir, 'voice_model.pkl')
 scaler_path=os.path.join(current_dir, 'voice_scaler.pkl')
 feat_path=os.path.join(current_dir, 'voice_features.pkl')
@@ -59,8 +62,7 @@ def extract_16features(wav_path):
     s_apq5=call([sound, point_process], "Get shimmer (apq5)",0,0,0.0001,0.02, 1.3,1.6)
     s_apq11=call([sound, point_process], "Get shimmer (apq11)",0,0,0.0001, 0.02,1.3,1.6)
     s_dda=s_apq3*3
-
-    #trích xuất 2 đặc trưng nhóm nhiễu 
+     #trích xuất 2 đặc trưng nhóm nhiễu 
     #harmonicity đo tỉ lệ giữa tín hiệu thanh âm và tính hiệu nhiễu 
     harmonicity=call(sound, "To Harmonicity (cc)",0.01,75,0.1,1.0)
     hnr=call(sound, "Get mean",0,0)
@@ -87,17 +89,18 @@ def extract_16features(wav_path):
         ppe=float(-np.sum(hist*np.log(hist+1e-6)))#công thức shannon antropy
     else: ppe=0.5
 
-    #đóng gói 16 kết quả thnahf 1 bộ dict 
+     #đóng gói 16 kết quả thnahf 1 bộ dict 
     return {'Jitter(%)': j_pct, 'Jitter(Abs)': j_abs, 'Jitter:RAP': j_rap, 
             'Jitter:PPQ5': j_ppq, 'Jitter:DDP': j_ddp,'Shimmer': s_loc, 
             'Shimmer(dB)': s_db, 'Shimmer:APQ3': s_apq3, 'Shimmer:APQ5': s_apq5, 
             'Shimmer:APQ11': s_apq11, 'Shimmer:DDA': s_dda, 'NHR': nhr, 
             'HNR': hnr, 'RPDE': rpde, 'DFA': dfa, 'PPE': ppe}
-             
+
     #xây dựng khung giao diện
 st.header("1.Upload Voice Recording")
 #nút upload file, chỉ cho phép đuôi wav
 upload_file=st.file_uploader("Chọn file giọng nói (.wav)", type=["wav"])
+
 
 if upload_file:
     #hiển thị thanh trình phst nhạc để nghe lại
@@ -145,5 +148,4 @@ if st.button("Phân tích điểm số UPDRS",type="primary", use_container_widt
 
         finally: os.unlink(tmp_path)
 
-
-        
+             
