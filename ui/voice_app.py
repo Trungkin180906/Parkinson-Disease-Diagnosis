@@ -74,7 +74,7 @@ def extract_16features(wav_path):
     band=librosa.feature.spectral_bandwidth(y=y_aud, sr=sr)[0]
 
     #dfa xấp xỉ qua tỉ lệ phổ tần số
-    dfa=float(np.mean(band)/(np.maen(cent)+1e-6))
+    dfa=float(np.mean(band)/(np.mean(cent)+1e-6))
 
     #prde xấp xỉ mức độ hỗn loạn qua độ lệch chuẩn phổ mfcc
     mfccs=librosa.feature.mfcc(y=y_aud, sr=sr, n_mfcc=20)
