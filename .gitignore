@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+ai/voice/x_voice.npy
+ai/voice/y_voice.npy
