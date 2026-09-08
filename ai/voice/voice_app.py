@@ -45,8 +45,12 @@ if model is None:
 def extract_16features(wav_path):
     #đọc file âm thanh bằng library parselmouth
     sound=parselmouth.Sound(wav_path)
-    pitch=call(sound, "To pitch",0.0,75,600)#tính toán đường cong cao độ giới hạn 75-600hz
-    point_process=call(sound,"To PointProcess (periodic, cc)", 75,600)#tính các điểmt tuần hoàn trong giọng nói
+    pitch = sound.to_pitch(time_step=0.01, pitch_floor=75, pitch_ceiling=600)#tính toán đường cong cao độ giới hạn 75-600
+    point_process = parselmouth.praat.call(
+        sound,
+        "To PointProcess (periodic, cc)",
+        75,
+        600)#tính các điểmt tuần hoàn trong giọng nói
 
     #trích xuất 5 đặt trúng nhóm jitter (độ dao động tần số)
     j_pct=call(point_process, "Get jitter (local)",0,0,0.0001,0.02,1.3)*100
@@ -56,12 +60,41 @@ def extract_16features(wav_path):
     j_ddp=j_rap*3#ddp được xấp xỉ = rap *3
 
     #trích xuất 6 đặt trưng nhóm shimmer(dao động biên độ/âm lượng)
-    s_loc=call([sound, point_process], "Get shimmer(local)",0,0,0.0001,0.02,1.3,1.6)
-    s_db=call([sound, point_process], "Get shimmer (local_db)",0,0,0.0001, 0.02,1.3,1.6)
-    s_apq3=call([sound, point_process], "Get shimmer (apq3)",0,0,0.0001,0.02,1.3,1.6)
-    s_apq5=call([sound, point_process], "Get shimmer (apq5)",0,0,0.0001,0.02, 1.3,1.6)
-    s_apq11=call([sound, point_process], "Get shimmer (apq11)",0,0,0.0001, 0.02,1.3,1.6)
-    s_dda=s_apq3*3
+    
+   # Trích xuất nhóm Shimmer
+    s_loc = call(
+        [sound, point_process],
+        "Get shimmer (local)",
+        0, 0, 0.0001, 0.02, 1.3, 1.6
+    )
+
+    s_db = call(
+        [sound, point_process],
+        "Get shimmer (local_dB)",
+        0, 0, 0.0001, 0.02, 1.3, 1.6
+    )
+
+    s_apq3 = call(
+        [sound, point_process],
+        "Get shimmer (apq3)",
+        0, 0, 0.0001, 0.02, 1.3, 1.6
+    )
+
+    s_apq5 = call(
+        [sound, point_process],
+        "Get shimmer (apq5)",
+        0, 0, 0.0001, 0.02, 1.3, 1.6
+    )
+    
+
+    s_apq11 = call(
+        [sound, point_process],
+        "Get shimmer (apq11)",
+        0, 0, 0.0001, 0.02, 1.3, 1.6
+    )
+
+# DDA = APQ3 × 3
+    s_dda = s_apq3 * 3
      #trích xuất 2 đặc trưng nhóm nhiễu 
     #harmonicity đo tỉ lệ giữa tín hiệu thanh âm và tính hiệu nhiễu 
     harmonicity=call(sound, "To Harmonicity (cc)",0.01,75,0.1,1.0)
@@ -74,8 +107,8 @@ def extract_16features(wav_path):
     band=librosa.feature.spectral_bandwidth(y=y_aud, sr=sr)[0]
 
     #dfa xấp xỉ qua tỉ lệ phổ tần số
-    dfa=float(np.mean(band)/(np.maen(cent)+1e-6))
-
+    
+    dfa = float(np.mean(band) / (np.mean(cent) + 1e-6))
     #prde xấp xỉ mức độ hỗn loạn qua độ lệch chuẩn phổ mfcc
     mfccs=librosa.feature.mfcc(y=y_aud, sr=sr, n_mfcc=20)
     rpde=float(np.std(mfccs))

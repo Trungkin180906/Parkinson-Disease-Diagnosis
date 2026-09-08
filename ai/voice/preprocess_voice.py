@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 #Đường dẫn cứng trỏ tới file Dataset tải từ UCI
-DATA_FILE = r"D:\parkinsons_updrs.data"
+DATA_FILE = r"D:\T\Github\Frontend\Parkinson-Disease-Diagnosis\dataset\voice\parkinsons_updrs.data"
 
 #lấy đường dẫn của thư mục 
 CURRENT_DIR=os.path.dirname(os.path.abspath(__file__))
