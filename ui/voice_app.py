@@ -20,14 +20,15 @@ st.markdown('<p style="text-align:center;">Phân tích giọng nói để đo l�
 
 #đọc và tải mô hình từ các file pkl
 #lấy đường dẫn thư mục tại file train_voice
-current_dir=os.path.dirname(os.path.abspath(__file__))
-model_path=os.path.join(current_dir, 'tele_model.pkl')
-scaler_path=os.path.join(current_dir, 'tele_scaler.pkl')
-feat_path=os.path.join(current_dir, 'tele_features.pkl')
-model_path=os.path.join(current_dir, 'voice_model.pkl')
-scaler_path=os.path.join(current_dir, 'voice_scaler.pkl')
-feat_path=os.path.join(current_dir, 'voice_features.pkl')
+# Lấy thư mục gốc của project
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Model Voice nằm trong ai/voice
+VOICE_DIR = os.path.join(PROJECT_DIR, "ai", "voice")
+
+model_path = os.path.join(VOICE_DIR, "voice_model.pkl")
+scaler_path = os.path.join(VOICE_DIR, "voice_scaler.pkl")
+feat_path = os.path.join(VOICE_DIR, "voice_features.pkl")
 # Hàm cache_resource giúp Streamlit lưu mô hình vào RAM (bộ nhớ tạm), 
 # tránh việc mỗi lần người dùng bấm nút lại phải load file nặng từ đầu
 @st.cache_resource
