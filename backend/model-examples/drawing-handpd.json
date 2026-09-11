@@ -1,0 +1,7 @@
+{
+  "version": "drawing-handpd-trained-v1",
+  "feature_schema": "drawing.handpd.v1",
+  "model_file": "drawing_model.pkl",
+  "scaler_file": "drawing_scaler.pkl",
+  "positive_class": 1
+}

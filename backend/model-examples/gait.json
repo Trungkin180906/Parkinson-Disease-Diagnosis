@@ -1,0 +1,7 @@
+{
+  "version": "gait-vgrf-correct-columns-v1",
+  "feature_schema": "gait.vgrf.v1",
+  "model_file": "gait_model.pkl",
+  "scaler_file": "gait_scaler.pkl",
+  "positive_class": 1
+}

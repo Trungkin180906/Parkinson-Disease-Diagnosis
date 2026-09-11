@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Backend runtime data and private access key
+.data/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+api-key.txt

@@ -1,0 +1,7 @@
+{
+  "version": "voice-uci16-trained-v1",
+  "feature_schema": "voice.uci16.v1",
+  "model_file": "voice_model.pkl",
+  "scaler_file": "voice_scaler.pkl",
+  "wav_extractor": null
+}

@@ -1,4 +1,26 @@
 # Parkinson-Disease-Diagnosis
+
+## Backend tích hợp
+
+Backend FastAPI nằm trong `backend/`: hồ sơ bệnh nhân, phiên sàng lọc Drawing/Gait,
+fusion, theo dõi Voice, lịch sử và báo cáo. Xem [hướng dẫn chạy và hợp đồng API](backend/README.md).
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
+.\.venv\Scripts\python.exe -m backend
+```
+
+Swagger: http://127.0.0.1:8000/docs. API key local được sinh tại `.data/api-key.txt`.
+API hoạt động độc lập với model; endpoint suy luận trả 503 nếu chưa có model/manifest
+tương thích. Các model chưa được huấn luyện lại trong phần backend này.
+
+Phần dưới là mô tả định hướng AI ban đầu của nhóm; không phải danh sách tính năng
+đã hoàn tất. Backend hiện nhận ảnh HOG, dữ liệu cảm biến Gait `.txt` và đặc trưng
+Voice; WAV cần bộ trích đặc trưng khớp dữ liệu huấn luyện. Video Gait chưa được hỗ trợ.
+
+## Định hướng AI ban đầu
+
  Hệ Thống AI Đa Phương Thức Chẩn Đoán & Theo Dõi Bệnh Parkinson
 (Multi-modal AI System for Parkinson's Disease Diagnosis & Monitoring)
 
